@@ -1,0 +1,12 @@
+SINGULARITYENV_MODEL_CONFIG_FILENAME='config_incep-mix-new3_test_ext.ini' \
+SINGULARITYENV_CUDA_VISIBLE_DEVICES='0' \
+SINGULARITYENV_HEATMAP_VERSION_NAME='lym_incep4_mix_new_prob' \
+SINGULARITYENV_LYM_PREDICTION_BATCH_SIZE=32 \
+singularity run -e --nv --bind /host/<folder>/:/data \
+til_classification.sif svs_2_heatmap.sh
+
+# /host/<folder> is where input images are and where results will be written out. 
+# <folder> should have the following subfolders
+# <folder>/svs  --> input images
+# <folder>/output --> prediction results will be output to this folder
+# <folder>/patches --> image tiles will be stored in this folder

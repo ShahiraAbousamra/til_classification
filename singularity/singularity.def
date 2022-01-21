@@ -1,0 +1,29 @@
+BootStrap: docker
+From: tensorflow/tensorflow:1.13.1-gpu-py3
+
+%files
+	../ /quip_app/til_classification/
+
+%post
+ 	apt-get -y update && \
+	apt-get -y install python3-pip openslide-tools wget git && \
+	pip install openslide-python scikit-image pymongo && \
+	pip install torch==1.0.1 torchvision==0.2.2
+	export BASE_DIR="/quip_app/til_classification"
+	chmod -R 0755 /quip_app
+	cd ${BASE_DIR}/u24_lymphocyte/prediction/models && \
+	wget -v -O models.zip -L \
+		https://stonybrookmedicine.box.com/shared/static/r0p2h2oh53zw52o6fm6qrqjtcwd3p0ga.zip >/dev/null 2>&1 && \
+	unzip -o models.zip && rm -f models.zip && \
+	bash ./update_path.sh && \
+	chmod 0755 ${BASE_DIR}/u24_lymphocyte/scripts/*
+
+%environment
+	export BASE_DIR="/quip_app/til_classification"
+	export PATH="/usr/local/bin:./":$PATH
+	export MODEL_URL="https://stonybrookmedicine.box.com/shared/static/r0p2h2oh53zw52o6fm6qrqjtcwd3p0ga.zip"
+	export MODEL_VER="v2.0"
+
+%runscript
+	cd ${BASE_DIR}/u24_lymphocyte/scripts
+	exec "$@"
