@@ -25,7 +25,7 @@ fi
 export APP_DIR=/quip_app
 export BASE_DIR=${APP_DIR}/til_classification
 export TIL_DIR=${BASE_DIR}/u24_lymphocyte/
-export DATA_DIR=/data
+export DATA_DIR=${TIL_DIR}/data
 export OUT_DIR=${DATA_DIR}/output
 
 # Prediction folders

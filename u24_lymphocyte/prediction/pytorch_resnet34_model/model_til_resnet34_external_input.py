@@ -4,9 +4,10 @@ import torch
 #from torchvision import models
 import collections
 from distutils.util import strtobool;
-import cv2
+#import cv2
 import numpy as np
 from torchvision import transforms
+from PIL import Image
 
 
 
@@ -42,7 +43,7 @@ class TILClassifierExternalInputModel():
         #print('inputs.shape a',inputs.shape)
         #np.clip(inputs, 0, 255, inputs);
         #print('inputs.shape c',inputs.shape)
-        inputs /= 255;
+        #inputs /= 255;
         #if(self.max_side > 0):
         #    h = inputs.shape[-3]
         #    w = inputs.shape[-2]
@@ -73,9 +74,11 @@ class TILClassifierExternalInputModel():
             #print('resizing')
             inputs2 = np.zeros((inputs.shape[0], self.resize_side,self.resize_side, inputs.shape[3]))
             for i in range(inputs.shape[0]):
-                img = cv2.resize(inputs[i].squeeze(), (self.resize_side,self.resize_side))
+                #img = cv2.resize(inputs[i].squeeze(), (self.resize_side,self.resize_side))
+                img = np.array(Image.fromarray(inputs[i].squeeze().astype(np.uint8)).resize((int(self.resize_side), int(self.resize_side)), Image.ANTIALIAS))
                 inputs2[i] = img
             inputs = inputs2
+        inputs /= 255;
         inputs=inputs.transpose((0,3,1,2)) 
         #print('inputs.max() a',inputs.max())
         #print('inputs.shape d',inputs.shape)
