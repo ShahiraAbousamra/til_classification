@@ -18,7 +18,7 @@ def main(args):
     from ..sa_testers.sa_net_test_classifier import ClassifierTester;
     from ..sa_net_optimizer import OptimizerTypes;
     from ..sa_net_loss_func_helper import CostFuncTypes;
-    from ..sa_cost_func.mse_cost_func import MSECost;
+    #from ..sa_cost_func.mse_cost_func import MSECost;
     from ..sa_cost_func.cross_entropy_cost_func import CrossEntropyCost;
 
 
