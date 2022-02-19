@@ -353,7 +353,21 @@ class TCGABatchDataProviderTestLabelled(AbstractDataProvider):
             data_points[0,:,:,:] = dp;
             for i in range(1, n):
                 #data_points[i], data_labels[i] = self.get_next_one();
-                data_points[i, :,:,:], data_labels[i,:] = self.get_next_one();
+                #data_points[i, :,:,:], data_labels[i,:] = self.get_next_one();
+                dp, data_labels[i,:] = self.get_next_one();                
+                if(self.in_size_y <=  dp.shape[0]):
+                    starty = (dp.shape[0] - self.in_size_y)//2;
+                    startx = (dp.shape[1] - self.in_size_x)//2;
+                    endy = starty + self.in_size_y;
+                    endx = startx + self.in_size_x;
+                    data_points[i, :,:,:] = dp[starty:endy, startx:endx, :];
+                else:
+                    starty = -(dp.shape[0] - self.in_size_y)//2;
+                    startx = -(dp.shape[1] - self.in_size_x)//2;
+                    endy = starty + dp.shape[0];
+                    endx = startx + dp.shape[1];
+                    data_points[i, starty:endy, startx:endx,:] = dp[:,:, :];
+
                 #datapoints_list.append(data_point_tmp);
                 #labels_list.append(data_label_tmp);
         else:
@@ -361,7 +375,20 @@ class TCGABatchDataProviderTestLabelled(AbstractDataProvider):
             data_labels = np.zeros((n, self.n_classes))
             for i in range(0, n):
                 #data_points[i], data_labels[i] = self.get_next_one();
-                data_points[i, :,:,:], data_labels[i,:] = self.get_next_one();
+                #data_points[i, :,:,:], data_labels[i,:] = self.get_next_one();
+                dp, data_labels[i,:] = self.get_next_one();                
+                if(self.in_size_y <=  dp.shape[0]):
+                    starty = (dp.shape[0] - self.in_size_y)//2;
+                    startx = (dp.shape[1] - self.in_size_x)//2;
+                    endy = starty + self.in_size_y;
+                    endx = startx + self.in_size_x;
+                    data_points[i, :,:,:] = dp[starty:endy, startx:endx, :];
+                else:
+                    starty = -(dp.shape[0] - self.in_size_y)//2;
+                    startx = -(dp.shape[1] - self.in_size_x)//2;
+                    endy = starty + dp.shape[0];
+                    endx = startx + dp.shape[1];
+                    data_points[i, starty:endy, startx:endx,:] = dp[:,:, :];
                 #datapoints_list.append(data_point_tmp);
                 #labels_list.append(data_label_tmp);
         #tic2 = time.time();
